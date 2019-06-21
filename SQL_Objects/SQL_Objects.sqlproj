@@ -14,7 +14,7 @@
     </RootPath>
     <RootNamespace>SQL_Objects</RootNamespace>
     <AssemblyName>SQL_Objects</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
+    <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -23,6 +23,8 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>PRIMARY</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -57,5 +59,58 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="common\" />
+    <Folder Include="common\Tables\" />
+    <Folder Include="cms\" />
+    <Folder Include="cms\Tables\" />
+    <Folder Include="tournament\" />
+    <Folder Include="tournament\Tables\" />
+    <Folder Include="Security\" />
+    <Folder Include="cms\Stored Procedures\" />
+    <Folder Include="common\Stored Procedures\" />
+    <Folder Include="tournament\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="common\Tables\mst_config.sql" />
+    <Build Include="common\Tables\dtl_users_banned.sql" />
+    <Build Include="common\Tables\dtl_users.sql" />
+    <Build Include="cms\Tables\mst_roles.sql" />
+    <Build Include="common\Tables\mst_region.sql" />
+    <Build Include="common\Tables\dtl_city_region.sql" />
+    <Build Include="common\Tables\mst_state.sql" />
+    <Build Include="common\Tables\mst_country.sql" />
+    <Build Include="common\Tables\mst_city.sql" />
+    <Build Include="common\Tables\mst_platform.sql" />
+    <Build Include="common\Tables\mst_games.sql" />
+    <Build Include="common\Tables\mst_format.sql" />
+    <Build Include="common\Tables\mst_prizepool.sql" />
+    <Build Include="tournament\Tables\mst_tournament_info.sql" />
+    <Build Include="tournament\Tables\dtl_tournaments.sql" />
+    <Build Include="tournament\Tables\dtl_prizepool.sql" />
+    <Build Include="cms\Tables\dtl_users.sql" />
+    <Build Include="Security\mobimasalaadmin.sql" />
+    <Build Include="Security\mobimasalaadmin_1.sql" />
+    <Build Include="Security\fbmob_api.sql" />
+    <Build Include="Security\fbmob_api_1.sql" />
+    <Build Include="Security\fbmob_fe.sql" />
+    <Build Include="Security\fbmob_fe_1.sql" />
+    <Build Include="Security\raj.sql" />
+    <Build Include="Security\raj_1.sql" />
+    <Build Include="Security\RoleMemberships.sql" />
+    <Build Include="cms\Stored Procedures\usp_crud_login.sql" />
+    <Build Include="cms\Stored Procedures\usp_get_cms_login_New.sql" />
+    <Build Include="common\Stored Procedures\usp_crud_login.sql" />
+    <Build Include="common\Stored Procedures\usp_get_login.sql" />
+    <Build Include="common\Stored Procedures\usp_crud_LoginToken.sql" />
+    <Build Include="common\Stored Procedures\usp_get_GameUser_Search.sql" />
+    <Build Include="common\Stored Procedures\usp_get_UserDetail.sql" />
+    <Build Include="cms\Stored Procedures\usp_crud_GameUser_Details.sql" />
+    <Build Include="cms\Stored Procedures\usp_crud_GameUser_Details_bkp.sql" />
+    <Build Include="tournament\Stored Procedures\usp_TournamentListing_upcoming.sql" />
+    <Build Include="tournament\Stored Procedures\usp_TournamentDetail.sql" />
+    <Build Include="cms\Stored Procedures\usp_get_cms_login.sql" />
+    <Build Include="Security\cms.sql" />
+    <Build Include="Security\common.sql" />
+    <Build Include="Security\tournament.sql" />
   </ItemGroup>
 </Project>

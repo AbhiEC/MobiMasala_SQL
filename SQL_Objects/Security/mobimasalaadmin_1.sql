@@ -1,0 +1,3 @@
+﻿CREATE LOGIN [mobimasalaadmin]
+    WITH PASSWORD = N'po&utea+eRZ?{ gzkyLCan8BmsFT7_&#$!~<{nxp?uJWbb|y', SID = 0xA4785CFCF1AF7D4C8BE3083BE129BDBD, DEFAULT_DATABASE = [FB_Mob], DEFAULT_LANGUAGE = [us_english], CHECK_POLICY = OFF;
+
