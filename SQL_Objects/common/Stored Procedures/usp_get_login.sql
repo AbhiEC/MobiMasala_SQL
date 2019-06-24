@@ -1,19 +1,34 @@
 ﻿
 
 CREATE PROCEDURE [common].[usp_get_login]
-	@UserID VARCHAR(200)
-	, @Token VARCHAR(1000)
+	@UserName VARCHAR(200)
+	, @Pwd VARCHAR(1000)
 AS
 BEGIN
 
-	DECLARE @TokenMsg VARCHAR(1000) = ''
+	DECLARE	@loginMsg VARCHAR(1000) = 'UserName not found!'
+			, @LoginCode smallint = 2
+			, @UserID INT
+			, @EmailID VARCHAR(200)
+			, @FirstName VARCHAR(1000)
+			, @MiddleName VARCHAR(1000)
+			, @LastName VARCHAR(1000)
+			, @cms_role SMALLINT
+			, @IsEnabled BIT
+			, @IsBanned BIT
+			, @MobileNumber VARCHAR(30)
 
-	EXECUTE common.usp_crud_LoginToken
-		@UserID = @UserID
-		, @Token = @Token out
-		, @TokenMsg = @TokenMsg out
-
-	SELECT	UserID, Pass_word, EmailID, FirstName, MiddleName, LastName, @Token AS Token, @TokenMsg AS TokenState
+	SELECT	@loginMsg = CASE WHEN du.Pass_word = @Pwd THEN 'Login Successful!' ELSE 'UserName and password combination does not match!' END
+			, @LoginCode = CASE WHEN du.Pass_word = @Pwd THEN 0 ELSE 1 END, @EmailID = du.EmailID
+			, @UserID = du.UserID, @FirstName = du.FirstName, @MiddleName = du.MiddleName, @LastName = du.LastName
+			, @IsEnabled = du.IsEnabled, @IsBanned = CASE WHEN ub.ID IS NULL THEN 0 ELSE 1 END, @MobileNumber = du.MobileNumber
 	FROM	common.dtl_users du
-	WHERE	du.UserID = @UserID AND du.Token = @Token
+			LEFT OUTER JOIN common.dtl_users_banned ub
+				ON du.UserID = ub.UserID AND ub.IsBanValid = 1 AND GETDATE() BETWEEN ub.BanStart AND ub.BanEnd
+	WHERE	du.UserName = @UserName
+
+	SELECT	@loginMsg AS loginMsg, @LoginCode AS LoginCode, @UserID AS UserID, @EmailID AS EmailID, @MobileNumber AS MobileNumber
+			, @FirstName AS FirstName, @MiddleName AS MiddleName, @LastName AS LastName, @IsEnabled AS IsEnabled, @IsBanned AS IsBanned
+
 END
+

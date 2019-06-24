@@ -8,5 +8,5 @@ BEGIN
 				ON tn.RegionID = rg.id
 			INNER JOIN common.mst_format fm
 				ON fm.id = tn.FormatID
-	WHERE	tn.RegEndTime > GETDATE() AND tn.listingLiveDate < GETDATE()
+	WHERE	tn.RegEndTime > GETDATE() AND tn.ListingLiveDate < GETDATE()
 END

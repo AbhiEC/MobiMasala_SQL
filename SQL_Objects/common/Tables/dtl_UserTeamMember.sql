@@ -1,0 +1,10 @@
+﻿CREATE TABLE common.[dtl_UserTeamMember]
+(
+	ID INT NOT NULL PRIMARY KEY
+	, TeamID INT NOT NULL
+	, TeamMemberID INT NOT NULL
+	, CreatedBy INT NOT NULL
+	, CreatedOn DATETIME DEFAULT(GETDATE()) NOT NULL
+	, ModifiedBy INT
+	, ModifiedOn DATETIME DEFAULT(GETDATE())
+)

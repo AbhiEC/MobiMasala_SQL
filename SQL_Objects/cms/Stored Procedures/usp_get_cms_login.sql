@@ -14,7 +14,7 @@ BEGIN
 	SELECT	@loginMsg = CASE WHEN cdu.pwd = @pwd THEN 'Login Successful!' ELSE 'EmailID and password combination does not match!' END
 			, @LoginCode = CASE WHEN cdu.pwd = @pwd THEN 0 ELSE 1 END
 			, @UserID = cdu.id, @FullName = cdu.FullName, @cms_role = cdu.cms_role, @IsEnabled = cdu.isenabled
-	FROM	CMS.dtl_users cdu
+	FROM	cms.dtl_users cdu
 	WHERE	cdu.emailId = @emailID
 
 	SELECT @loginMsg AS LoginMsg, @LoginCode AS LoginCode, @UserID AS UserID, @FullName AS FullName, @cms_role AS cms_role, @IsEnabled AS IsEnabled

@@ -69,6 +69,7 @@
     <Folder Include="cms\Stored Procedures\" />
     <Folder Include="common\Stored Procedures\" />
     <Folder Include="tournament\Stored Procedures\" />
+    <Folder Include="cms\Functions\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="common\Tables\mst_config.sql" />
@@ -112,5 +113,16 @@
     <Build Include="Security\cms.sql" />
     <Build Include="Security\common.sql" />
     <Build Include="Security\tournament.sql" />
+    <Build Include="common\Tables\dtl_UserTeams.sql" />
+    <Build Include="common\Tables\dtl_UserTeamMember.sql" />
+    <Build Include="cms\Functions\fn_AdminToken_Check.sql" />
+    <Build Include="cms\Stored Procedures\usp_crud_AdminToken_Update.sql" />
+    <Build Include="common\Stored Procedures\usp_crud_Token_Update.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="SQL_Objects.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Analysis.sql" />
   </ItemGroup>
 </Project>

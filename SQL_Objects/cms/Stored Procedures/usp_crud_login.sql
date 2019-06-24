@@ -4,7 +4,7 @@
 	@FullName VARCHAR(1000)
 AS
 BEGIN
-	INSERT INTO CMS.dtl_users
+	INSERT INTO cms.dtl_users
 			(emailId, pwd, FullName, cms_role)
 	SELECT	@emailID, @pwd, @FullName, 1
 
