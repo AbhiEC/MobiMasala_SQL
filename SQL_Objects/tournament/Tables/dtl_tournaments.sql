@@ -14,10 +14,16 @@
     [StartTime]              DATETIME       NULL,
     [EndTime]                DATETIME       NULL,
     [ListingLiveDate]        DATETIME       NULL,
+	[IsCancelled]            BIT            CONSTRAINT [DF__dtl_tourn__IsCan__693CA210] DEFAULT (0),
     [CreatedOn]              DATETIME       CONSTRAINT [DF__dtl_tourn__Creat__693CA210] DEFAULT (getdate()) NULL,
     [CreatedBy]              INT            NULL,
     [LastModifiedOn]         DATETIME       NULL,
     [LastModifiedBy]         INT            NULL,
-    CONSTRAINT [tournament_dtl_tournaments_pk] PRIMARY KEY CLUSTERED ([id] ASC)
+    CONSTRAINT [tournament_dtl_tournaments_pk] PRIMARY KEY CLUSTERED ([id] ASC), 
+    CONSTRAINT [FK_dtl_tournaments_ToGame] FOREIGN KEY (GameID) REFERENCES common.mst_games(GameID), 
+    CONSTRAINT [FK_dtl_tournaments_ToFormat] FOREIGN KEY (FormatID) REFERENCES common.mst_format(FormatID), 
+    CONSTRAINT [FK_dtl_tournaments_ToPlatform] FOREIGN KEY (PlatformID) REFERENCES common.mst_platform(PlatformID), 
+    CONSTRAINT [FK_dtl_tournaments_ToRegion] FOREIGN KEY (RegionID) REFERENCES common.mst_region(RegionID), 
+    CONSTRAINT [FK_dtl_tournaments_ToInfo] FOREIGN KEY (InfoID) REFERENCES tournament.mst_tournament_info(id)
 );
 

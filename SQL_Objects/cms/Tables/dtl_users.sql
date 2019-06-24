@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [cms].[dtl_users] (
-    [id]             INT             IDENTITY (1, 1) NOT NULL,
+    AdminUserID             INT             IDENTITY (1, 1) NOT NULL,
     [emailId]        VARCHAR (100)   NOT NULL,
     [pwd]            VARCHAR(2000) NULL,
     [FullName]       VARCHAR (200)   NOT NULL,
@@ -8,7 +8,7 @@
     [Token]          VARCHAR (200)   NULL,
     [TokenCreatedOn] DATETIME        NULL,
     [createdon]      DATETIME        CONSTRAINT [DF__dtl_users__creat__7F2BE32F] DEFAULT (getdate()) NOT NULL,
-    CONSTRAINT [cms_dtl_users_pk] PRIMARY KEY CLUSTERED ([id] ASC)
+    CONSTRAINT [cms_dtl_users_pk] PRIMARY KEY CLUSTERED (AdminUserID ASC)
 );
 
 

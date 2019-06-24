@@ -7,7 +7,7 @@ BEGIN
 	UPDATE	du
 	SET		Token = @Token, TokenCreatedOn = GETDATE()
 	FROM	cms.dtl_users du
-	WHERE	du.id = @UserID
+	WHERE	du.AdminUserID = @UserID
 	SELECT @RCnt = @@ROWCOUNT
 
 	IF @RCnt = 1

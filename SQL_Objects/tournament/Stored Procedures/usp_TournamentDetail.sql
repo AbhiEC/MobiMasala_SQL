@@ -11,14 +11,14 @@ BEGIN
 			INNER JOIN tournament.mst_tournament_info ti
 				ON tn.InfoID = ti.id
 			INNER JOIN common.mst_format fm
-				ON tn.FormatID = fm.id
+				ON tn.FormatID = fm.FormatID
 			OUTER APPLY	(
 							SELECT	JSON_QUERY(CONCAT('[', string_agg(CONCAT('{"rank":"'
 									, dpp.RankNo, '","PrizeType":"', mpp.PrizeName, '","units":"', dpp.Units, '"}'), ','), ']')) AS Prizes
 									, COUNT(1) AS PrizeCount
 							FROM	tournament.dtl_prizepool dpp
 									INNER JOIN common.mst_prizepool mpp
-										ON mpp.id = dpp.PrizePoolID
+										ON mpp.PrizePoolID = dpp.PrizePoolID
 							WHERE	dpp.TournamentID = tn.id
 							GROUP BY dpp.TournamentID
 						) pp

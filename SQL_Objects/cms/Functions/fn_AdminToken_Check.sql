@@ -8,7 +8,7 @@ AS
 BEGIN
 	DECLARE @AdminUserID INT = 0
 	
-	SELECT	@AdminUserID = du.id
+	SELECT	@AdminUserID = du.AdminUserID
 	FROM	cms.dtl_users du
 	WHERE	du.Token = @Token
 

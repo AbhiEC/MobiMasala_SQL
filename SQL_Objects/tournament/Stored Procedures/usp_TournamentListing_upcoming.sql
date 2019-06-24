@@ -5,8 +5,8 @@ BEGIN
 			, tn.StartTime AS TournamentStartTime, tn.RegStartTime AS RegistrationStartTime, tn.RegEndTime AS RegistrationEndTime
 	FROM	tournament.dtl_tournaments tn
 			INNER JOIN common.mst_region rg
-				ON tn.RegionID = rg.id
+				ON tn.RegionID = rg.RegionID
 			INNER JOIN common.mst_format fm
-				ON fm.id = tn.FormatID
+				ON fm.FormatID = tn.FormatID
 	WHERE	tn.RegEndTime > GETDATE() AND tn.ListingLiveDate < GETDATE()
 END
