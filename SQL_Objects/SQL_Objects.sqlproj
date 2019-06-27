@@ -118,8 +118,16 @@
     <Build Include="cms\Functions\fn_AdminToken_Check.sql" />
     <Build Include="cms\Stored Procedures\usp_crud_AdminToken_Update.sql" />
     <Build Include="common\Stored Procedures\usp_crud_Token_Update.sql" />
+    <Build Include="common\Stored Procedures\usp_get_games.sql" />
+    <Build Include="common\Stored Procedures\usp_get_format.sql" />
+    <Build Include="tournament\Stored Procedures\usp_get_tournament_info.sql" />
+    <Build Include="common\Stored Procedures\usp_get_region.sql" />
+    <Build Include="cms\Stored Procedures\usp_crud_Tournament.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="SQL_Objects.refactorlog" />
   </ItemGroup>
 </Project>

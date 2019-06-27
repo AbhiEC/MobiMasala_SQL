@@ -4,7 +4,7 @@ CREATE PROCEDURE [tournament].[usp_TournamentDetail]
 	@TournamentID INT
 AS
 BEGIN
-	SELECT	tn.id AS TournamentID, tn.Name AS TournamentName, tn.StartTime AS TournamentStartTime
+	SELECT	tn.TournamentID AS TournamentID, tn.Name AS TournamentName, tn.StartTime AS TournamentStartTime, tn.EndTime AS TournamentEndTime
 			, tn.RegStartTime AS RegistrationStartTime, tn.RegEndTime AS RegistrationEndTime, tn.ParticipantsTotal AS TotalParticipants
 			, tn.ParticipantsRegistered, ti.InfoDesc, fm.FormatName, fm.FormatRules, pp.Prizes, pp.PrizeCount
 	FROM	tournament.dtl_tournaments tn
@@ -17,11 +17,11 @@ BEGIN
 									, dpp.RankNo, '","PrizeType":"', mpp.PrizeName, '","units":"', dpp.Units, '"}'), ','), ']')) AS Prizes
 									, COUNT(1) AS PrizeCount
 							FROM	tournament.dtl_prizepool dpp
-									INNER JOIN common.mst_prizepool mpp
-										ON mpp.PrizePoolID = dpp.PrizePoolID
-							WHERE	dpp.TournamentID = tn.id
+									INNER JOIN common.mst_PrizeType mpp
+										ON mpp.PrizeTypeID = dpp.PrizeTypeID
+							WHERE	dpp.TournamentID = tn.TournamentID
 							GROUP BY dpp.TournamentID
 						) pp
-	WHERE	tn.id = @TournamentID
+	WHERE	tn.TournamentID = @TournamentID
 	FOR JSON PATH
 END

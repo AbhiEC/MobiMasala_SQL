@@ -3,7 +3,7 @@
   <Version>10</Version>
   <SourceModelProvider>
     <ConnectionBasedModelProvider>
-      <ConnectionString>Data Source=mobimasala-mssql.cb4ioud1ecyk.us-east-1.rds.amazonaws.com;Initial Catalog=FB_Mob;Persist Security Info=True;User ID=mobimasalaadmin;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True</ConnectionString>
+      <ConnectionString>Data Source=mysql-mobimasala.c7mpheobvftq.ap-south-1.rds.amazonaws.com;Initial Catalog=FB_Mob;Persist Security Info=True;User ID=mobimasalaadmin;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True</ConnectionString>
     </ConnectionBasedModelProvider>
   </SourceModelProvider>
   <TargetModelProvider>
