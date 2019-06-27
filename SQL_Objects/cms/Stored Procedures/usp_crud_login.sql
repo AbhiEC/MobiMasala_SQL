@@ -5,7 +5,7 @@
 AS
 BEGIN
 	INSERT INTO cms.dtl_users
-			(emailId, pwd, FullName, cms_role)
+			(EmailID, Pwd, FullName, CmsRole)
 	SELECT	@emailID, @pwd, @FullName, 1
 
 	IF @@ROWCOUNT = 1

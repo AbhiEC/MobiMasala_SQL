@@ -24,6 +24,6 @@
     CONSTRAINT [FK_dtl_tournaments_ToFormat] FOREIGN KEY (FormatID) REFERENCES common.mst_format(FormatID), 
     CONSTRAINT [FK_dtl_tournaments_ToPlatform] FOREIGN KEY (PlatformID) REFERENCES common.mst_platform(PlatformID), 
     CONSTRAINT [FK_dtl_tournaments_ToRegion] FOREIGN KEY (RegionID) REFERENCES common.mst_region(RegionID), 
-    CONSTRAINT [FK_dtl_tournaments_ToInfo] FOREIGN KEY (InfoID) REFERENCES tournament.mst_tournament_info(id)
+    CONSTRAINT [FK_dtl_tournaments_ToInfo] FOREIGN KEY (InfoID) REFERENCES tournament.mst_tournament_info(TournamentInfoID)
 );
 

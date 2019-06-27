@@ -9,7 +9,7 @@ BEGIN
 			, tn.ParticipantsRegistered, ti.InfoDesc, fm.FormatName, fm.FormatRules, pp.Prizes, pp.PrizeCount
 	FROM	tournament.dtl_tournaments tn
 			INNER JOIN tournament.mst_tournament_info ti
-				ON tn.InfoID = ti.id
+				ON tn.InfoID = ti.TournamentInfoID
 			INNER JOIN common.mst_format fm
 				ON tn.FormatID = fm.FormatID
 			OUTER APPLY	(

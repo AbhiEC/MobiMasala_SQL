@@ -9,7 +9,7 @@
   </SourceModelProvider>
   <TargetModelProvider>
     <ConnectionBasedModelProvider>
-      <ConnectionString>Data Source=mobimasala-mssql.cb4ioud1ecyk.us-east-1.rds.amazonaws.com;Initial Catalog=FB_Mob;Persist Security Info=True;User ID=mobimasalaadmin;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True</ConnectionString>
+      <ConnectionString>Data Source=mysql-mobimasala.c7mpheobvftq.ap-south-1.rds.amazonaws.com;Initial Catalog=FB_Mob;Persist Security Info=True;User ID=mobimasalaadmin;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True</ConnectionString>
     </ConnectionBasedModelProvider>
   </TargetModelProvider>
   <SchemaCompareSettingsService>
@@ -298,11 +298,11 @@
       </PropertyElementName>
       <PropertyElementName>
         <Name>TargetDatabaseName</Name>
-        <Value>SQL_Objects_2</Value>
+        <Value>FB_Mob</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>TargetConnectionString</Name>
-        <Value>Integrated Security=True;Pooling=False;Connect Timeout=30</Value>
+        <Value>Data Source=mysql-mobimasala.c7mpheobvftq.ap-south-1.rds.amazonaws.com;Initial Catalog=FB_Mob;Persist Security Info=True;User ID=mobimasalaadmin;Pooling=False;MultipleActiveResultSets=False;Encrypt=False;TrustServerCertificate=True;Application Name="Microsoft SQL Server Data Tools, Schema Compare"</Value>
       </PropertyElementName>
       <PropertyElementName>
         <Name>TreatVerificationErrorsAsWarnings</Name>
@@ -911,6 +911,16 @@
     <ZoomLevel>100</ZoomLevel>
     <Filter>Equals_Objects,Not_Supported_Deploy</Filter>
   </SchemaCompareViewSettings>
+  <ExcludedSourceElements>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>cms</Name>
+      <Name>mst_roles</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>cms</Name>
+      <Name>cms_mst_roles_pk</Name>
+    </SelectedItem>
+  </ExcludedSourceElements>
   <ExcludedTargetElements>
     <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>common</Name>
@@ -920,9 +930,13 @@
       <Name>common</Name>
       <Name>dtl_UserTeams</Name>
     </SelectedItem>
-    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlScalarFunction, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlTable, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>cms</Name>
-      <Name>fn_AdminUserID_Check</Name>
+      <Name>mst_roles</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlPrimaryKeyConstraint, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>cms</Name>
+      <Name>cms_mst_roles_pk</Name>
     </SelectedItem>
   </ExcludedTargetElements>
 </SchemaComparison>

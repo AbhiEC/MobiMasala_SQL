@@ -18,8 +18,8 @@ BEGIN
 			, @IsBanned BIT
 			, @MobileNumber VARCHAR(30)
 
-	SELECT	@loginMsg = CASE WHEN du.Pass_word = @Pwd THEN 'Login Successful!' ELSE 'UserName and password combination does not match!' END
-			, @LoginCode = CASE WHEN du.Pass_word = @Pwd THEN 0 ELSE 1 END, @EmailID = du.EmailID
+	SELECT	@loginMsg = CASE WHEN du.Pwd = @Pwd THEN 'Login Successful!' ELSE 'UserName and password combination does not match!' END
+			, @LoginCode = CASE WHEN du.Pwd = @Pwd THEN 0 ELSE 1 END, @EmailID = du.EmailID
 			, @UserID = du.UserID, @FirstName = du.FirstName, @MiddleName = du.MiddleName, @LastName = du.LastName
 			, @IsEnabled = du.IsEnabled, @IsBanned = CASE WHEN ub.ID IS NULL THEN 0 ELSE 1 END, @MobileNumber = du.MobileNumber
 	FROM	common.dtl_users du

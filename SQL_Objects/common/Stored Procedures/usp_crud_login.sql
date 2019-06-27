@@ -25,7 +25,7 @@ BEGIN
 				SELECT @Token = NEWID(), @TokenMsg = 'NEW'
 
 				INSERT INTO common.dtl_users
-						(UserName, Pass_word, EmailID, FirstName, MiddleName, LastName, CreatedBy, Token, TokenCreatedOn, MobileNumber)
+						(UserName, Pwd, EmailID, FirstName, MiddleName, LastName, CreatedBy, Token, TokenCreatedOn, MobileNumber)
 				SELECT	@UserName, @PassWord, @EmailID, @FirstName, @MiddleName, @LastName, 0, @Token, GETDATE(), @MobileNumber
 				SET @Identity = @@IDENTITY
 			END
@@ -40,7 +40,7 @@ BEGIN
 				--SELECT @Token, @TokenMsg
 
 				UPDATE	du
-				SET		UserName = @UserName, Pass_word = @PassWord, EmailID = @EmailID
+				SET		UserName = @UserName, Pwd = @PassWord, EmailID = @EmailID
 						, FirstName = @FirstName, MiddleName = @MiddleName, LastName = @LastName
 						, ModifiedBy = 0, ModifiedOn = GETDATE(), MobileNumber = @MobileNumber
 				FROM	common.dtl_users du

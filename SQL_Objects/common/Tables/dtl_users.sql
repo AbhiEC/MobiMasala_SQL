@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [common].[dtl_users] (
     [UserID]         INT             IDENTITY (1, 1) NOT NULL,
     [UserName]       VARCHAR (200)   NOT NULL,
-    [Pass_word]      VARCHAR (2000) NULL,
+    Pwd      VARCHAR (2000) NULL,
     [EmailID]        VARCHAR (1000)  NOT NULL,
     [FirstName]      VARCHAR (200)   NULL,
     [MiddleName]     VARCHAR (200)   NULL,
