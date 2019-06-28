@@ -6,17 +6,17 @@
 	, @GameID SMALLINT
 	, @FormatID SMALLINT
 	, @RegionID SMALLINT
-	, @InfoID SMALLINT
+	, @TournamentInfoID SMALLINT
 	, @ParticipantsTotal SMALLINT
-	, @RegStartTime DATETIME
-	, @RegEndTime DATETIME
-	, @TnmtStartTime DATETIME
-	, @TnmtEndTime DATETIME
+	, @RegistrationStartTime DATETIME
+	, @RegistrationEndTime DATETIME
+	, @TournamentStartTime DATETIME
+	, @TournamentEndTime DATETIME
 	, @ListingLiveDate DATETIME
 	, @ActionedByAdminUserID INT
 	, @IsCancelled BIT = 0
 	, @OnHold BIT = 0
-	, @PrizePool VARCHAR(4000)
+	, @Prizes VARCHAR(4000)
 
 AS
 BEGIN
@@ -24,15 +24,15 @@ BEGIN
 
 	BEGIN TRY
 		BEGIN --Tournament validations
-			IF	@RegStartTime >= @RegEndTime
+			IF	@RegistrationStartTime >= @RegistrationEndTime
 				THROW 51000, 'Registration StartTime is ahead of/same as Registration EndTime!', 1;
-			ELSE IF	@RegStartTime >= @TnmtStartTime
+			ELSE IF	@RegistrationStartTime >= @TournamentStartTime
 				THROW 51000, 'Registration StartTime is ahead of/same as Tournament StartTime!', 1;
-			ELSE IF	@RegEndTime >= @TnmtEndTime
+			ELSE IF	@RegistrationEndTime >= @TournamentEndTime
 				THROW 51000, 'Registration EndTime is ahead of/same as Tournament EndTime!', 1;
-			ELSE IF	@TnmtStartTime >= @TnmtEndTime
+			ELSE IF	@TournamentStartTime >= @TournamentEndTime
 				THROW 51000, 'Tournament StartTime is ahead of/same as Tournament EndTime!', 1;
-			ELSE IF	@ListingLiveDate > @RegStartTime
+			ELSE IF	@ListingLiveDate > @RegistrationStartTime
 				THROW 51000, 'Listing Live Date should earlier than Registration StartTime!', 1;
 			ELSE IF @Action = 'U' AND @TournamentDesc <= 0
 				THROW 51000, 'Invalid tournament ID!', 1;
@@ -55,7 +55,7 @@ BEGIN
 			SELECT	J.[rank], J.PrizeType, J.units, PP.PrizeTypeID, 1
 			FROM	(
 						SELECT	* 
-						FROM	OPENJSON ( @PrizePool )  
+						FROM	OPENJSON ( @Prizes )  
 						WITH	(	rank smallint '$.rank' ,  
 									PrizeType VARCHAR(100) '$.PrizeType',  
 									Units DECIMAL(10,2) '$.units'
@@ -83,12 +83,12 @@ BEGIN
 						, t.GameID = @GameID
 						, t.FormatID = @FormatID
 						, t.RegionID = @RegionID
-						, t.InfoID = @InfoID
+						, t.InfoID = @TournamentInfoID
 						, t.ParticipantsTotal = @ParticipantsTotal
-						, t.RegStartTime = @RegStartTime
-						, t.RegEndTime = @RegEndTime
-						, t.StartTime = @TnmtStartTime
-						, t.EndTime = @TnmtEndTime
+						, t.RegStartTime = @RegistrationStartTime
+						, t.RegEndTime = @RegistrationEndTime
+						, t.StartTime = @TournamentStartTime
+						, t.EndTime = @TournamentEndTime
 						, t.ListingLiveDate = @ListingLiveDate
 						, t.OnHold = @OnHold
 						, t.IsCancelled = @IsCancelled
@@ -126,8 +126,8 @@ BEGIN
 						([Name], [Desc], GameID, FormatID, RegionID, InfoID, ParticipantsTotal
 						, ParticipantsRegistered, RegStartTime, RegEndTime, StartTime, EndTime, ListingLiveDate
 						, OnHold, IsCancelled, CreatedOn, CreatedBy)
-				SELECT	@TournamentName, @TournamentDesc, @GameID, @FormatID, @RegionID, @InfoID, @ParticipantsTotal
-						, 0, @RegStartTime, @RegEndTime, @TnmtStartTime, @TnmtEndTime, @ListingLiveDate
+				SELECT	@TournamentName, @TournamentDesc, @GameID, @FormatID, @RegionID, @TournamentInfoID, @ParticipantsTotal
+						, 0, @RegistrationStartTime, @RegistrationEndTime, @TournamentStartTime, @TournamentEndTime, @ListingLiveDate
 						, @OnHold, @IsCancelled, GETDATE(), @ActionedByAdminUserID
 				SELECT @TournamentIDNew = @@IDENTITY
 

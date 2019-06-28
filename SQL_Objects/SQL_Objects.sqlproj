@@ -123,6 +123,7 @@
     <Build Include="tournament\Stored Procedures\usp_get_tournament_info.sql" />
     <Build Include="common\Stored Procedures\usp_get_region.sql" />
     <Build Include="cms\Stored Procedures\usp_crud_Tournament.sql" />
+    <Build Include="common\Tables\mst_BitWise_Mapping.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.sql" />
