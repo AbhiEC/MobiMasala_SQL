@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE cms.[usp_crud_Tournament]
+﻿CREATE PROCEDURE [cms].[usp_crud_Tournament]
 	@Action CHAR(1) --Options currently available 'U', 'I'
 	, @TournamentID INT
 	, @TournamentName VARCHAR(500)
@@ -16,7 +16,11 @@
 	, @ActionedByAdminUserID INT
 	, @IsCancelled BIT = 0
 	, @OnHold BIT = 0
-	, @Prizes VARCHAR(4000)
+	, @Prizes NVARCHAR(4000)
+	, @EntryFee_TypeID SMALLINT
+	, @EntryFee_CurrencyID INT
+	, @EntryFee_Units DECIMAL(18,2)
+	, @TournamentBannerImageLink VARCHAR(4000)
 
 AS
 BEGIN
@@ -94,6 +98,10 @@ BEGIN
 						, t.IsCancelled = @IsCancelled
 						, t.LastModifiedOn = GETDATE()
 						, t.LastModifiedBy = @ActionedByAdminUserID
+						, t.EntryFee_TypeID = @EntryFee_TypeID
+						, t.EntryFee_CurrencyID = @EntryFee_CurrencyID
+						, t.EntryFee_Units = @EntryFee_Units
+						, t.TournamentBannerImageLink = @TournamentBannerImageLink
 				FROM	tournament.dtl_tournaments t
 				WHERE	t.TournamentID = @TournamentID
 				SELECT @UpdateCnt = @@ROWCOUNT
@@ -125,10 +133,12 @@ BEGIN
 				INSERT INTO tournament.dtl_tournaments
 						([Name], [Desc], GameID, FormatID, RegionID, InfoID, ParticipantsTotal
 						, ParticipantsRegistered, RegStartTime, RegEndTime, StartTime, EndTime, ListingLiveDate
-						, OnHold, IsCancelled, CreatedOn, CreatedBy)
+						, OnHold, IsCancelled, CreatedOn, CreatedBy
+						, EntryFee_TypeID, EntryFee_CurrencyID, EntryFee_Units, TournamentBannerImageLink)
 				SELECT	@TournamentName, @TournamentDesc, @GameID, @FormatID, @RegionID, @TournamentInfoID, @ParticipantsTotal
 						, 0, @RegistrationStartTime, @RegistrationEndTime, @TournamentStartTime, @TournamentEndTime, @ListingLiveDate
 						, @OnHold, @IsCancelled, GETDATE(), @ActionedByAdminUserID
+						, @EntryFee_TypeID, @EntryFee_CurrencyID, @EntryFee_Units, @TournamentBannerImageLink
 				SELECT @TournamentIDNew = @@IDENTITY
 
 				IF ISNULL(@TournamentIDNew, 0) = 0
@@ -146,6 +156,9 @@ BEGIN
 
 				SELECT 'Record inserted successfully!' AS Msg, 0 AS MsgCode, @TournamentID AS TournamentID
 			END
+
+		IF @Action IN ('I', 'U')
+			EXEC [tournament].[usp_crud_PrizeDetails_In_Tournament] @TournamentID
 
 		COMMIT TRANSACTION
 	END TRY
