@@ -27,7 +27,7 @@ BEGIN
 				ON du.UserID = ub.UserID AND ub.IsBanValid = 1 AND GETDATE() BETWEEN ub.BanStart AND ub.BanEnd
 	WHERE	du.UserName = @UserName
 
-	SELECT	@loginMsg AS loginMsg, @LoginCode AS LoginCode, @UserID AS UserID, @EmailID AS EmailID, @MobileNumber AS MobileNumber
+	SELECT	@loginMsg AS LoginMsg, @LoginCode AS LoginCode, @UserID AS UserID, @EmailID AS EmailID, @MobileNumber AS MobileNumber
 			, @FirstName AS FirstName, @MiddleName AS MiddleName, @LastName AS LastName, @IsEnabled AS IsEnabled, @IsBanned AS IsBanned
 
 END

@@ -71,6 +71,7 @@
     <Folder Include="tournament\Stored Procedures\" />
     <Folder Include="cms\Functions\" />
     <Folder Include="tournament\Views\" />
+    <Folder Include="common\Functions" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="common\Tables\mst_config.sql" />
@@ -128,6 +129,11 @@
     <Build Include="common\Tables\mst_currency.sql" />
     <Build Include="tournament\Views\vw_tournament_detail.sql" />
     <Build Include="tournament\Stored Procedures\usp_crud_PrizeDetails_In_Tournament.sql" />
+    <Build Include="common\Tables\dtl_UserInGame.sql" />
+    <Build Include="common\Stored Procedures\usp_crud_Team.sql" />
+    <Build Include="cms\Functions\fn_UserEmail_Check.sql" />
+    <Build Include="common\Tables\dtl_UserTeamInvitations.sql" />
+    <Build Include="common\Functions\fn_get_CheckTeamName.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.sql" />

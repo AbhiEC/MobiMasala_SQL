@@ -24,7 +24,7 @@ BEGIN
 		SELECT	@ErrorMsg = REVERSE(SUBSTRING(REVERSE(CASE WHEN du.UserName = @UserName THEN 'Username/' ELSE '' END
 				+ CASE WHEN du.EmailID = @EmailID THEN 'Emailid/' ELSE '' END
 				+ CASE WHEN du.MobileNumber = @MobileNumber THEN 'MobileNumber/' ELSE '' END), 2, 4000))
-				+ ' already exists!'
+				--+ ' already exists!'
 		FROM	common.dtl_users du
 		WHERE	du.UserName = @UserName OR du.EmailID = @EmailID OR du.MobileNumber = @MobileNumber
 

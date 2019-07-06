@@ -1,7 +1,7 @@
 ﻿
 CREATE PROCEDURE [cms].[usp_get_cms_login]
 	@emailID VARCHAR(100),
-	@pwd NVARCHAR(4000)
+	@pwd VARCHAR(4000)
 AS
 BEGIN
 	DECLARE	@loginMsg VARCHAR(1000) = 'EmailID not found!'
