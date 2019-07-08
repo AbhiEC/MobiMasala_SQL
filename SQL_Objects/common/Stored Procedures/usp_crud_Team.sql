@@ -34,11 +34,11 @@ BEGIN
 				SELECT	@NewTeamID, @CreatorUserID, @InvitationID, @CreatorUserID, GETDATE()
 				SELECT @Insert_dtl_UserTeamMember_Cnt = @@ROWCOUNT
 
-				IF @NewTeamID <> 0 OR @InvitationID <> 0 OR @Insert_dtl_UserTeamMember_Cnt <> 1
-					BEGIN
+				--IF @NewTeamID <> 0 OR @InvitationID <> 0 OR @Insert_dtl_UserTeamMember_Cnt <> 1
+				--	BEGIN
 						
 
-					END
+				--	END
 			END
 		ELSE IF @Action = 'U'
 			BEGIN

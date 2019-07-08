@@ -134,6 +134,10 @@
     <Build Include="cms\Functions\fn_UserEmail_Check.sql" />
     <Build Include="common\Tables\dtl_UserTeamInvitations.sql" />
     <Build Include="common\Functions\fn_get_CheckTeamName.sql" />
+    <Build Include="common\Tables\mst_GameMap.sql" />
+    <Build Include="common\Stored Procedures\usp_get_GameMaps.sql" />
+    <Build Include="common\Stored Procedures\usp_get_Currency.sql" />
+    <Build Include="common\Stored Procedures\usp_get_PrizeType.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.sql" />

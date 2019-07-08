@@ -6,6 +6,7 @@
     [GameID]            SMALLINT       NULL,
     [TeamSize]          SMALLINT       NULL,
     [FormatMode]        VARCHAR (50)   NULL,
+    [ParticipantUnit]   VARCHAR (100)  NULL,
     [FormatRules]       VARCHAR (4000) NULL,
     [IsActive]          BIT            CONSTRAINT [DF_mst_format_IsActive] DEFAULT ((1)) NULL,
     [FormatImageLink_1] VARCHAR (4000) NULL,
@@ -15,6 +16,8 @@
     CONSTRAINT [FK_mst_format_ToGame] FOREIGN KEY ([GameID]) REFERENCES [common].[mst_games] ([GameID]),
     CONSTRAINT [UK_mst_format] UNIQUE NONCLUSTERED ([GameID] ASC, [FormatGameGroupID] ASC)
 );
+
+
 
 
 

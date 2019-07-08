@@ -6,10 +6,9 @@ BEGIN
 			, vtd.ParticipantsTotal AS TotalSlots, vtd.ParticipantsRegistered AS ParticipantsRegistered
 			, vtd.FormatImageLink_1, vtd.FormatImageLink_2, vtd.ModeImageLink, JSON_QUERY(vtd.TournamentPrizePool_JSON) AS PrizePool_JSON
 			, vtd.EntryFee_Unit AS EntryFee_Unit, vtd.EntryFee_TypeName AS EntryFee_Type, vtd.EntryFee_TypeID AS EntryFee_TypeID
-			, CASE	WHEN GETDATE() BETWEEN vtd.RegStartTime AND vtd.RegEndTime THEN CASE WHEN vtd.ParticipantsTotal > vtd.ParticipantsRegistered THEN 'OPEN' ELSE 'FULL' END
-					ELSE 'CLOSE'
-			END TournamentRegistrationStatus, vtd.PrizePool_Cnt
+			, vtd.TournamentRegistrationStatus, vtd.PrizePool_Cnt, vtd.TournamentStatus, vtd.FormatMode
 	FROM	[tournament].[vw_tournament_detail] vtd
 	WHERE	vtd.RegEndTime > GETDATE() AND vtd.ListingLiveDate < GETDATE()
+			AND vtd.OnHold = 0
 	FOR JSON PATH
 END
