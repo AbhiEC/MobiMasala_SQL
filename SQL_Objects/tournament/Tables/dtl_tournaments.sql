@@ -14,8 +14,8 @@
     [StartTime]                 DATETIME        NOT NULL,
     [EndTime]                   DATETIME        NOT NULL,
     [ListingLiveDate]           DATETIME        NOT NULL,
-    [OnHold]                    BIT             CONSTRAINT [DF_dtl_tourn_IsHold] DEFAULT ((0)) NULL,
-    [IsCancelled]               BIT             CONSTRAINT [DF__dtl_tourn__IsCan__693CA210] DEFAULT ((0)) NULL,
+    [OnHold]                    BIT             CONSTRAINT [DF_dtl_tourn_IsHold] DEFAULT ((0)) NOT NULL,
+    [IsCancelled]               BIT             CONSTRAINT [DF__dtl_tourn__IsCan__693CA210] DEFAULT ((0)) NOT NULL,
     [TournamentBannerImageLink] VARCHAR (4000)  NULL,
     [TournamentPrizePool_JSON]  NVARCHAR (4000) NOT NULL,
     [PrizePool_Cnt]             SMALLINT        NOT NULL,
@@ -39,6 +39,8 @@
     CONSTRAINT [FK_dtl_tournaments_ToInfo] FOREIGN KEY ([InfoID]) REFERENCES [tournament].[mst_tournament_info] ([TournamentInfoID]),
     CONSTRAINT [FK_dtl_tournaments_ToRegion] FOREIGN KEY ([RegionID]) REFERENCES [common].[mst_region] ([RegionID])
 );
+
+
 
 
 

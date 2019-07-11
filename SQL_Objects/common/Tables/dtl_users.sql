@@ -7,6 +7,7 @@
     [MiddleName]     VARCHAR (200)  NULL,
     [LastName]       VARCHAR (200)  NULL,
     [MobileNumber]   VARCHAR (20)   NULL,
+    [UserAvataarUrl] VARCHAR (4000) NULL,
     [CityID]         SMALLINT       NULL,
     [Token]          VARCHAR (200)  NULL,
     [TokenCreatedOn] DATETIME       NOT NULL,
@@ -21,6 +22,8 @@
     CONSTRAINT [UK_dtl_users_EmailID] UNIQUE NONCLUSTERED ([EmailID] ASC),
     CONSTRAINT [UK_dtl_users_UserName] UNIQUE NONCLUSTERED ([UserName] ASC)
 );
+
+
 
 
 

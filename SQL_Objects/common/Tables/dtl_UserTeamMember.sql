@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [common].[dtl_UserTeamMember] (
-    [ID]               INT      NOT NULL,
+    [ID]               INT      IDENTITY (1, 1) NOT NULL,
     [TeamID]           INT      NOT NULL,
     [TeamMemberUserID] INT      NOT NULL,
     [TeamInvitationID] INT      NOT NULL,
@@ -11,6 +11,8 @@
     CONSTRAINT [FK_dtl_UserTeamMember_ToUsers] FOREIGN KEY ([TeamMemberUserID]) REFERENCES [common].[dtl_users] ([UserID]),
     CONSTRAINT [FK_dtl_UserTeamMember_ToUserTeam] FOREIGN KEY ([TeamID]) REFERENCES [common].[dtl_UserTeams] ([TeamID])
 );
+
+
 
 
 

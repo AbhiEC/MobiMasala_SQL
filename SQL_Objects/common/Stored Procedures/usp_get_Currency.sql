@@ -3,7 +3,11 @@
 AS
 BEGIN
 	SELECT	c.CurrencyID AS CurrencyID, c.CurrencyName AS CurrencyName, c.CurrencyShortName AS CurrencyShortName
-			, c.CurrencySymbol AS CurrencySymbol
+			, c.CurrencySymbol AS CurrencySymbol, cpl.PrizeTypeID
 	FROM	common.mst_currency c
-	WHERE	(	@CurrencyID = 0 OR c.CurrencyID = @CurrencyID	)
+			LEFT OUTER JOIN common.mst_Currency_PrizeType_Linking cpl
+				ON c.CurrencyID = cpl.CurrencyID
+	WHERE	(		@CurrencyID = 0 
+				OR	c.CurrencyID = @CurrencyID	) 
+			AND c.IsListable = '1'
 END

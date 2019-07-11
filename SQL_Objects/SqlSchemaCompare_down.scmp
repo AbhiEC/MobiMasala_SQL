@@ -917,8 +917,8 @@
       <Name>usp_crud_login</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlProcedure, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>tournament</Name>
-      <Name>usp_TournamentListing_upcoming</Name>
+      <Name>common</Name>
+      <Name>usp_crud_TeamInvite</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlView, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>tournament</Name>
@@ -932,6 +932,10 @@
       <Name>common</Name>
       <Name>usp_get_format</Name>
     </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlProcedure, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>tournament</Name>
+      <Name>usp_TournamentListing_upcoming</Name>
+    </SelectedItem>
   </ExcludedSourceElements>
   <ExcludedTargetElements>
     <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlProcedure, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
@@ -943,8 +947,8 @@
       <Name>usp_crud_login</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlProcedure, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-      <Name>tournament</Name>
-      <Name>usp_TournamentListing_upcoming</Name>
+      <Name>common</Name>
+      <Name>usp_crud_TeamInvite</Name>
     </SelectedItem>
     <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlProcedure, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>common</Name>
@@ -961,6 +965,10 @@
     <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlProcedure, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <Name>common</Name>
       <Name>usp_get_format</Name>
+    </SelectedItem>
+    <SelectedItem Type="Microsoft.Data.Tools.Schema.Sql.SchemaModel.SqlProcedure, Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Name>tournament</Name>
+      <Name>usp_TournamentListing_upcoming</Name>
     </SelectedItem>
   </ExcludedTargetElements>
 </SchemaComparison>

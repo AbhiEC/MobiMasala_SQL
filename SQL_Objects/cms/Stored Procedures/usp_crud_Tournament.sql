@@ -21,25 +21,52 @@
 	, @EntryFee_CurrencyID INT
 	, @EntryFee_Units DECIMAL(18,2)
 	, @TournamentBannerImageLink VARCHAR(4000)
+	, @MatchCount INT = 0
+	, @GameMapID INT = 1
 
 AS
 BEGIN
 	DECLARE @ErrMsg VARCHAR(8000) = ''
+	DECLARE @Msg VARCHAR(4000) = ''
+	DECLARE @MsgCode SMALLINT = 0
 
 	BEGIN TRY
 		BEGIN --Tournament validations
+			IF EXISTS (SELECT 1 FROM tournament.dtl_tournaments dt WHERE dt.Name = @TournamentName)
+				BEGIN
+					SELECT 'Tournament with same name already exists!' AS Msg, 1 AS MsgCode, @TournamentID AS TournamentID
+					RETURN
+				END
 			IF	@RegistrationStartTime >= @RegistrationEndTime
-				THROW 51000, 'Registration StartTime is ahead of/same as Registration EndTime!', 1;
+				BEGIN
+					SELECT 'Registration StartTime is ahead of/same as Registration EndTime!' AS Msg, 1 AS MsgCode, @TournamentID AS TournamentID
+					RETURN
+				END
 			ELSE IF	@RegistrationStartTime >= @TournamentStartTime
-				THROW 51000, 'Registration StartTime is ahead of/same as Tournament StartTime!', 1;
+				BEGIN
+					SELECT 'Registration StartTime is ahead of/same as Tournament StartTime!' AS Msg, 1 AS MsgCode, @TournamentID AS TournamentID
+					RETURN
+				END
 			ELSE IF	@RegistrationEndTime >= @TournamentEndTime
-				THROW 51000, 'Registration EndTime is ahead of/same as Tournament EndTime!', 1;
+				BEGIN
+					SELECT 'Registration EndTime is ahead of/same as Tournament EndTime!' AS Msg, 1 AS MsgCode, @TournamentID AS TournamentID
+					RETURN
+				END
 			ELSE IF	@TournamentStartTime >= @TournamentEndTime
-				THROW 51000, 'Tournament StartTime is ahead of/same as Tournament EndTime!', 1;
+				BEGIN
+					SELECT 'Tournament StartTime is ahead of/same as Tournament EndTime!' AS Msg, 1 AS MsgCode, @TournamentID AS TournamentID
+					RETURN
+				END
 			ELSE IF	@ListingLiveDate > @RegistrationStartTime
-				THROW 51000, 'Listing Live Date should earlier than Registration StartTime!', 1;
-			ELSE IF @Action = 'U' AND @TournamentDesc <= 0
-				THROW 51000, 'Invalid tournament ID!', 1;
+				BEGIN
+					SELECT 'Listing Live Date should earlier than Registration StartTime!' AS Msg, 1 AS MsgCode, @TournamentID AS TournamentID
+					RETURN
+				END
+			ELSE IF @Action = 'U' AND @TournamentID <= 0
+				BEGIN
+					SELECT 'Invalid tournament ID!' AS Msg, 1 AS MsgCode, @TournamentID AS TournamentID
+					RETURN
+				END
 		END
 
 		BEGIN --Prizes JSON parsing and validation
@@ -51,18 +78,20 @@ BEGIN
 				PrizeType VARCHAR(200) NOT NULL,
 				Units DECIMAL(10,2) NOT NULL,
 				PrizeTypeID SMALLINT NOT NULL,
-				GrpID TINYINT
+				GrpID TINYINT,
+				CurrencyID SMALLINT
 			)
 
 			INSERT INTO #Prizes
-			(PrizeRank, PrizeType, Units, PrizeTypeID, GrpID)
-			SELECT	J.[rank], J.PrizeType, J.units, PP.PrizeTypeID, 1
+			(PrizeRank, PrizeType, Units, PrizeTypeID, GrpID, CurrencyID)
+			SELECT	J.[rank], J.PrizeType, J.units, PP.PrizeTypeID, 1, currencyID
 			FROM	(
 						SELECT	* 
 						FROM	OPENJSON ( @Prizes )  
 						WITH	(	rank smallint '$.rank' ,  
 									PrizeType VARCHAR(100) '$.PrizeType',  
-									Units DECIMAL(10,2) '$.units'
+									Units DECIMAL(10,2) '$.units',
+									CurrencyID SMALLINT '$.currencyID'
 								) 
 					) J
 					LEFT OUTER JOIN common.mst_PrizeType pp
@@ -71,7 +100,10 @@ BEGIN
 			IF EXISTS	(	SELECT	GrpID
 							FROM	#Prizes
 							GROUP BY GrpID
-							HAVING (COUNT(1) <> MAX(PrizeRank) OR MIN(PrizeRank) <> 1 OR COUNT(1) = 0)
+							HAVING	(		(COUNT(1) <> MAX(PrizeRank))
+										OR	(MIN(PrizeRank) <> 1)
+										OR	(COUNT(1) = 0)
+									)
 						)
 				THROW 51000, 'Something wrong in PrizePool JSON!', 1;
 		END
@@ -102,6 +134,8 @@ BEGIN
 						, t.EntryFee_CurrencyID = @EntryFee_CurrencyID
 						, t.EntryFee_Units = @EntryFee_Units
 						, t.TournamentBannerImageLink = @TournamentBannerImageLink
+						, t.MatchCount = @MatchCount
+						, t.GameMapID = @GameMapID
 				FROM	tournament.dtl_tournaments t
 				WHERE	t.TournamentID = @TournamentID
 				SELECT @UpdateCnt = @@ROWCOUNT
@@ -133,12 +167,14 @@ BEGIN
 				INSERT INTO tournament.dtl_tournaments
 						([Name], [Desc], GameID, FormatID, RegionID, InfoID, ParticipantsTotal
 						, ParticipantsRegistered, RegStartTime, RegEndTime, StartTime, EndTime, ListingLiveDate
-						, OnHold, IsCancelled, CreatedOn, CreatedBy
-						, EntryFee_TypeID, EntryFee_CurrencyID, EntryFee_Units, TournamentBannerImageLink)
+						, OnHold, IsCancelled, CreatedOn, CreatedBy, MatchCount, GameMapID
+						, EntryFee_TypeID, EntryFee_CurrencyID, EntryFee_Units, TournamentBannerImageLink
+						, TournamentPrizeList_JSON, Prize_Cnt, TournamentPrizePool_JSON, PrizePool_Cnt)
 				SELECT	@TournamentName, @TournamentDesc, @GameID, @FormatID, @RegionID, @TournamentInfoID, @ParticipantsTotal
 						, 0, @RegistrationStartTime, @RegistrationEndTime, @TournamentStartTime, @TournamentEndTime, @ListingLiveDate
-						, @OnHold, @IsCancelled, GETDATE(), @ActionedByAdminUserID
+						, 0, 0, GETDATE(), @ActionedByAdminUserID, @MatchCount, @GameMapID
 						, @EntryFee_TypeID, @EntryFee_CurrencyID, @EntryFee_Units, @TournamentBannerImageLink
+						, '', 0, '', 0
 				SELECT @TournamentIDNew = @@IDENTITY
 
 				IF ISNULL(@TournamentIDNew, 0) = 0
@@ -148,8 +184,8 @@ BEGIN
 					END
 
 				INSERT INTO tournament.dtl_prizepool
-						(TournamentID, RankNo, SubRankNo, PrizeTypeID, Units, PrizeDesc)
-				SELECT	@TournamentIDNew, PrizeRank, 1, PrizeTypeID, Units, ''
+						(TournamentID, RankNo, SubRankNo, PrizeTypeID, Units, PrizeDesc, CurrencyID)
+				SELECT	@TournamentIDNew, PrizeRank, 1, PrizeTypeID, Units, '', NULLIF(CurrencyID, 0)
 				FROM	#Prizes
 						
 				SELECT @TournamentID = @TournamentIDNew
@@ -164,7 +200,7 @@ BEGIN
 	END TRY
 
 	BEGIN CATCH
-		IF @@ROWCOUNT > 0
+		IF @@TRANCOUNT > 0
 			ROLLBACK TRANSACTION
 
 		SELECT ERROR_MESSAGE() AS Msg, 2 AS MsgCode, @TournamentID AS TournamentID

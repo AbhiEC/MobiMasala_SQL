@@ -138,6 +138,10 @@
     <Build Include="common\Stored Procedures\usp_get_GameMaps.sql" />
     <Build Include="common\Stored Procedures\usp_get_Currency.sql" />
     <Build Include="common\Stored Procedures\usp_get_PrizeType.sql" />
+    <Build Include="cms\Stored Procedures\usp_TournamentListing_upcoming.sql" />
+    <Build Include="common\Stored Procedures\usp_get_UserName.sql" />
+    <Build Include="common\Stored Procedures\usp_crud_TeamInvite.sql" />
+    <Build Include="common\Tables\mst_Currency_PrizeType_Linking.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.sql" />
