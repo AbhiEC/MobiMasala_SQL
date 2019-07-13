@@ -72,6 +72,10 @@
     <Folder Include="cms\Functions\" />
     <Folder Include="tournament\Views\" />
     <Folder Include="common\Functions" />
+    <Folder Include="applog\" />
+    <Folder Include="applog\Tables\" />
+    <Folder Include="utils\" />
+    <Folder Include="utils\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="common\Tables\mst_config.sql" />
@@ -142,11 +146,29 @@
     <Build Include="common\Stored Procedures\usp_get_UserName.sql" />
     <Build Include="common\Stored Procedures\usp_crud_TeamInvite.sql" />
     <Build Include="common\Tables\mst_Currency_PrizeType_Linking.sql" />
+    <Build Include="cms\Stored Procedures\usp_TouramentDetail.sql" />
+    <Build Include="common\Functions\fn_get_TeamMembers.sql" />
+    <Build Include="common\Functions\fn_get_TeamMembersWithPendingInvites.sql" />
+    <Build Include="common\Stored Procedures\usp_get_TeamDetailsByTeamID.sql" />
+    <Build Include="common\Functions\fn_get_TeamDetailsByTeamID.sql" />
+    <Build Include="common\Stored Procedures\usp_crud_TeamInvite_Accept.sql" />
+    <Build Include="common\Stored Procedures\usp_get_TeamInvites_MyTeam.sql" />
+    <Build Include="applog\Tables\dtl_CRUDErrors.sql" />
+    <Build Include="Security\applog.sql" />
+    <Build Include="utils\Stored Procedures\usp_get_SPErrorLogginString.sql" />
+    <Build Include="Security\utils.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Analysis.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="SQL_Objects.refactorlog" />
+  </ItemGroup>
+  <ItemGroup>
+    <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\130\SqlSchemas\master.dacpac">
+      <HintPath>$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\130\SqlSchemas\master.dacpac</HintPath>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
+    </ArtifactReference>
   </ItemGroup>
 </Project>

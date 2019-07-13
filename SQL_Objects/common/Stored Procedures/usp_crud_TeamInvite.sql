@@ -12,15 +12,40 @@ BEGIN
 	DECLARE @UserID INT
 	DECLARE @MsgCode SMALLINT = 2
 	DECLARE @Msg VARCHAR(2000) = ''
+	DECLARE @IsUserAlreadyInvited BIT = 0
+	DECLARE @IsUserAlreadyInTeam BIT = 0
+	DECLARE @PendingInvitationsCount INT = 0
+	DECLARE @TeamMemberInTeamCount INT = 0
+	DECLARE @TeamMemberAlreadyInTeam BIT = 0
+
+
 
 	BEGIN TRY
 		SELECT	@UserID = du.UserID
 		FROM	common.dtl_users du
 		WHERE	du.UserName = @InvitedUserName
 
+		SELECT	@IsUserAlreadyInvited = MAX(CASE WHEN uti.TeamMemberUserID = @UserID THEN 1 ELSE 0 END)
+				, @PendingInvitationsCount = COUNT(1)
+		FROM	common.dtl_UserTeamInvitations uti
+		WHERE	uti.TeamID = @TeamID AND uti.IsInvitationAccepted = 0 AND uti.IsInvitationCanceled = 0
+
+		SELECT	@TeamMemberInTeamCount = COUNT(1)
+				, @TeamMemberAlreadyInTeam = MAX(CASE WHEN utm.TeamMemberUserID = @UserID THEN 1 ELSE 0 END)
+		FROM	common.dtl_UserTeamMember utm
+		WHERE	utm.TeamID = @TeamID
+
 		IF @UserID IS NULL
 			BEGIN
 				SELECT	@Msg = 'Username does not exists!', @MsgCode = 1
+			END
+		ELSE IF @IsUserAlreadyInvited = 1
+			BEGIN
+				SELECT	@Msg = 'User already invited for the same team!', @MsgCode = 1
+			END
+		ELSE IF @TeamMemberAlreadyInTeam = 1
+			BEGIN
+				SELECT	@Msg = 'User already in team!', @MsgCode = 1
 			END
 		ELSE
 			BEGIN
@@ -28,22 +53,13 @@ BEGIN
 				FROM	common.mst_config c
 				WHERE	c.ConfigName = 'TeamMemberLimit'
 
-				SELECT	@TeamMemberCount = SUM(MemberCount)
-				FROM	(
-							SELECT	COUNT(1) AS PendingInvitationsCount
-							FROM	common.dtl_UserTeamInvitations uti
-							WHERE	uti.TeamID = @TeamID AND uti.IsInvitationAccepted = 0
-							UNION ALL
-							SELECT	dut.TeamMember_Count AS TeamMemberCount
-							FROM	common.dtl_UserTeams dut
-							WHERE	dut.TeamID = @TeamID
-						) TeamMemberCount(MemberCount)
+				SELECT	@TeamMemberCount = @TeamMemberInTeamCount + @PendingInvitationsCount
 	
 				BEGIN TRANSACTION
 
 				IF @TeamMemberLimit <= @TeamMemberCount
 					BEGIN
-						SELECT	@Msg = 'Cannot add User as team is full!', @MsgCode = 1
+						SELECT	@Msg = CONCAT('Cannot add User as team is full. Max member count in a team is ', @TeamMemberLimit, '!'), @MsgCode = 1
 					END
 				ELSE
 					BEGIN
@@ -64,7 +80,8 @@ BEGIN
 					END
 				END
 
-		SELECT	@Msg AS msg, @MsgCode AS msgCode
+		SELECT	@Msg AS msg, @MsgCode AS msgCode, JSON_QUERY(common.fn_get_TeamMembersWithPendingInvites(@TeamID)) AS teamMemberList
+		FOR JSON PATH
 
 		COMMIT TRANSACTION
 	END TRY
@@ -72,7 +89,8 @@ BEGIN
 		IF @@TRANCOUNT > 0
 			ROLLBACK TRANSACTION
 
-		SELECT ERROR_MESSAGE() AS msg, 2 AS msgCode
+		SELECT ERROR_MESSAGE() AS msg, 2 AS msgCode, JSON_QUERY(common.fn_get_TeamMembersWithPendingInvites(@TeamID)) AS teamMemberList
+		FOR JSON PATH
 
 	END CATCH
 END

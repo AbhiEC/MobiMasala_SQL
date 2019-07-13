@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [tournament].[dtl_tournaments] (
     [TournamentID]              INT             IDENTITY (1, 1) NOT NULL,
     [Name]                      VARCHAR (500)   NOT NULL,
-    [Desc]                      VARCHAR (2000)  NULL,
+    [Desc]                      VARCHAR (2000)  CONSTRAINT [DF_dtl_tournaments_Desc] DEFAULT ('') NOT NULL,
     [GameID]                    SMALLINT        NOT NULL,
     [FormatID]                  INT             NOT NULL,
     [RegionID]                  SMALLINT        NOT NULL,
@@ -16,7 +16,7 @@
     [ListingLiveDate]           DATETIME        NOT NULL,
     [OnHold]                    BIT             CONSTRAINT [DF_dtl_tourn_IsHold] DEFAULT ((0)) NOT NULL,
     [IsCancelled]               BIT             CONSTRAINT [DF__dtl_tourn__IsCan__693CA210] DEFAULT ((0)) NOT NULL,
-    [TournamentBannerImageLink] VARCHAR (4000)  NULL,
+    [TournamentBannerImageLink] VARCHAR (4000)  CONSTRAINT [DF_dtl_tournaments_TournamentBannerImageLink] DEFAULT ('') NOT NULL,
     [TournamentPrizePool_JSON]  NVARCHAR (4000) NOT NULL,
     [PrizePool_Cnt]             SMALLINT        NOT NULL,
     [TournamentPrizeList_JSON]  NVARCHAR (4000) NOT NULL,
@@ -26,7 +26,7 @@
     [EntryFee_TypeID]           SMALLINT        NOT NULL,
     [EntryFee_CurrencyID]       INT             NULL,
     [EntryFee_Units]            DECIMAL (18, 2) NOT NULL,
-    [ScoringText]               VARCHAR (4000)  NULL,
+    [ScoringText]               VARCHAR (4000)  CONSTRAINT [DF_dtl_tournaments_ScoringText] DEFAULT ('') NOT NULL,
     [CreatedOn]                 DATETIME        CONSTRAINT [DF__dtl_tourn__Creat__693CA210] DEFAULT (getdate()) NOT NULL,
     [CreatedBy]                 INT             NOT NULL,
     [LastModifiedOn]            DATETIME        NULL,
@@ -39,6 +39,8 @@
     CONSTRAINT [FK_dtl_tournaments_ToInfo] FOREIGN KEY ([InfoID]) REFERENCES [tournament].[mst_tournament_info] ([TournamentInfoID]),
     CONSTRAINT [FK_dtl_tournaments_ToRegion] FOREIGN KEY ([RegionID]) REFERENCES [common].[mst_region] ([RegionID])
 );
+
+
 
 
 

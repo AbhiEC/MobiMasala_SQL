@@ -14,6 +14,16 @@ BEGIN
 	DECLARE @UpdateRowCnt SMALLINT = 0
 	DECLARE @ErrorMsg VARCHAR(4000) = ''
 	DECLARE @MsgCode SMALLINT = 2
+	DECLARE @TeamJoiningLimit INT = 0
+	DECLARE @UserTeamCount INT = 0
+
+	SELECT	@TeamJoiningLimit = ConfigValue1
+	FROM	common.mst_config
+	WHERE	ConfigName = 'UserTeamLimit'
+
+	SELECT	@UserTeamCount = COUNT(1)
+	FROM	common.dtl_UserTeamMember utm
+	WHERE	utm.TeamMemberUserID = @CreatorUserID
 
 	BEGIN TRY
 		IF @Action = 'I'
@@ -21,6 +31,11 @@ BEGIN
 				IF EXISTS(SELECT 1 FROM common.dtl_UserTeams dut WHERE dut.TeamName = @TeamName)
 					BEGIN
 						SELECT 'Team name already exists!' AS msg, 1 AS msgCode, @TeamID AS teamID
+						RETURN
+					END
+				ELSE IF	1 = (CASE WHEN @TeamJoiningLimit = 0 THEN 0 WHEN @TeamJoiningLimit > @UserTeamCount THEN 0 ELSE 1 END)
+					BEGIN
+						SELECT CONCAT('Cannot create team as User is/will be associated with team beyond limt of ', @TeamJoiningLimit, '!') AS msg, 1 AS msgCode, @TeamID AS teamID
 						RETURN
 					END
 				ELSE
